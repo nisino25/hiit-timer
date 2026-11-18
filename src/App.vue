@@ -186,9 +186,9 @@ function tick() {
     return;
   }
 
-  // Countdown beeps at 3, 2, 1 seconds left.
+  // Countdown beeps at 5, 4, 3, 2, 1 seconds left.
   const sec = Math.ceil(left / 1000);
-  if (sec <= 3 && sec !== lastTickSec) {
+  if (sec <= 5 && sec !== lastTickSec) {
     lastTickSec = sec;
     cue('tick');
   }
@@ -247,7 +247,7 @@ onBeforeUnmount(() => {
       paddingRight: 'max(1rem, env(safe-area-inset-right))',
     }"
   >
-    <header class="flex w-full max-w-sm items-center justify-between">
+    <header class="flex w-full max-w-sm items-center justify-between landscape:max-w-3xl">
       <h1 class="text-lg font-bold tracking-wide">HIIT Timer</h1>
       <button
         type="button"
@@ -283,8 +283,10 @@ onBeforeUnmount(() => {
       </button>
     </section>
 
-    <div class="flex w-full max-w-sm flex-1 flex-col items-center justify-center gap-4 py-3">
-      <div class="w-full">
+    <div
+      class="flex w-full max-w-sm flex-1 flex-col items-center justify-center gap-4 py-3 landscape:grid landscape:max-w-3xl landscape:grid-cols-2 landscape:grid-rows-[auto_1fr_auto] landscape:items-center landscape:gap-x-12 landscape:gap-y-2 landscape:py-0"
+    >
+      <div class="w-full landscape:col-start-2 landscape:row-start-1">
         <div class="flex h-3 w-full gap-1">
           <div
             v-for="(p, i) in phaseStates"
@@ -301,11 +303,16 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <span class="rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest" :class="theme.chip">
+      <span
+        class="rounded-full px-4 py-1 text-sm font-semibold uppercase tracking-widest landscape:col-start-1 landscape:row-start-1 landscape:justify-self-center"
+        :class="theme.chip"
+      >
         {{ finished ? 'Done' : current?.label ?? '—' }}
       </span>
 
-      <div class="relative aspect-square w-[min(18rem,68vw,38svh)]">
+      <div
+        class="relative aspect-square w-[min(18rem,68vw,38svh)] landscape:col-start-1 landscape:row-span-2 landscape:row-start-2 landscape:justify-self-center landscape:w-[min(20rem,46vw,62svh)]"
+      >
         <svg viewBox="0 0 120 120" class="h-full w-full -rotate-90">
           <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="8" class="text-white/10" />
           <circle
@@ -328,9 +335,9 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <p class="h-5 text-sm text-white/50">{{ nextText }}</p>
+      <p class="h-5 text-sm text-white/50 landscape:col-start-2 landscape:row-start-2 landscape:self-center">{{ nextText }}</p>
 
-      <div class="flex w-full gap-3">
+      <div class="flex w-full gap-3 landscape:col-start-2 landscape:row-start-3">
         <button
           type="button"
           class="flex-1 rounded-2xl py-5 text-xl font-bold active:scale-[0.98] disabled:opacity-40"
@@ -348,11 +355,15 @@ onBeforeUnmount(() => {
           Reset
         </button>
       </div>
+      <div class="hidden text-center landscape:col-start-2 landscape:row-start-4 landscape:block">
+        <span class="text-xl font-bold tabular-nums text-white">{{ leftText }}</span>
+        <span class="ml-3 text-xs text-white/40">Total {{ formatTime(totalSeconds) }}</span>
+      </div>
     </div>
 
-    <footer class="text-center text-sm">
+    <footer class="text-center text-sm landscape:hidden">
       <div class="text-2xl font-bold tabular-nums text-white">{{ leftText }}</div>
-      <div class="mt-1 text-xs text-white/40">Total {{ formatTime(totalSeconds) }} · {{ settings.sets }} sets</div>
+      <div class="mt-1 text-xs text-white/40 landscape:hidden">Total {{ formatTime(totalSeconds) }} · {{ settings.sets }} sets</div>
     </footer>
   </main>
 </template>
